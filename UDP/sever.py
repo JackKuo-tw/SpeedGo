@@ -8,20 +8,19 @@ import sys
 
 class monocell(Thread):
 
-
-    def __init__(self,name,life):
+    def __init__(self,name):
 
         Thread.__init__(self)
         self.birthTime = datetime.datetime.now()
-
         self.name = name
-        self.life = life
 
     def run(self):
 
-        heart(self.name, self.life)
+        heart(self.name)
+
 
 def speed_convert(data):
+
     calc = data*8
     if calc > 1024:
         if calc/1024 > 1024:
@@ -32,7 +31,9 @@ def speed_convert(data):
     else:
         return str(calc) + " bytes"
 
-def heart(name,life):
+
+def heart(name):
+
     global data,UDP_IP,Client_info,avg_speed,count
     if name=="speed":
         while True:
@@ -65,63 +66,64 @@ def heart(name,life):
         print "Upload test finish"
 
     if name=="receive":
-            print "Waiting for Upload test..."
-            count = 0
-            while 1:
-                recv_data, addr = sock.recvfrom(2048)
-                #print len(recv_data)
-                data = data + len(recv_data) + 42
-                if len(recv_data) == 4:
-                    data = 4
-                    break
-            time.sleep(1)
-            print "Client's upload test finish"
-            print "Preparing for client's download"
-            Client_info = addr
-            #avg = speed_convert(avg_speed/(second-3))
-            avg = speed_convert(avg_speed/5)
-            print "Client's upload: " + avg
-            for i in range(100):
-                sock.sendto(avg, Client_info)
-            time.sleep(1)
-            for i in range(50):
-                sock.sendto(avg, Client_info)
-            time.sleep(4)
-            print UDP_IP
-            try:
-            #    speed = monocell("speed",10)
-                send = monocell("send",20)
+        print "Waiting for Upload test..."
+        count = 0
+        while 1:
+            recv_data, addr = sock.recvfrom(2048)
+            #print len(recv_data)
+            data = data + len(recv_data) + 42
+            if len(recv_data) == 4:
+                data = 4
+                break
+        time.sleep(1)
+        print "Client's upload test finish"
+        print "Preparing for client's download"
+        Client_info = addr
+        #avg = speed_convert(avg_speed/(second-3))
+        avg = speed_convert(avg_speed/5)
+        print "Client's upload: " + avg
+        for i in range(100):
+            sock.sendto(avg, Client_info)
+        time.sleep(1)
+        for i in range(50):
+            sock.sendto(avg, Client_info)
+        time.sleep(4)
+        print UDP_IP
+        try:
+        #    speed = monocell("speed")
+            send = monocell("send")
 
-            #    speed.start()
-                send.start()
-            except:
-                print "internal error!"
-                system("pause")    
+        #    speed.start()
+            send.start()
+        except:
+            print "internal error!"
+            system("pause")    
 
-second = 10
-UDP_IP = ""       # Symbolic name meaning all available interfaces
-UDP_PORT = 5005            # Arbitrary non-privileged port
-Client_info = ""
-data = 0
-avg_speed = 0
-count = 0
-MESSAGE = "Hello, World!" * 113
-if len(sys.argv) > 1:
-    UDP_PORT = int(sys.argv[1])
-try:
-    sock = socket.socket(socket.AF_INET, # Internet
-                     socket.SOCK_DGRAM) # UDP
-    sock.bind((UDP_IP, UDP_PORT))
+if __name__ == "__main__":
+    second = 10
+    UDP_IP = ""       # Symbolic name meaning all available interfaces
+    UDP_PORT = 5005            # Arbitrary non-privileged port
+    Client_info = ""
+    data = 0
+    avg_speed = 0
+    count = 0
+    MESSAGE = "Hello, World!" * 113
+    if len(sys.argv) > 1:
+        UDP_PORT = int(sys.argv[1])
     try:
-        speed = monocell("speed",10)
-        receive = monocell("receive",20)
+        sock = socket.socket(socket.AF_INET, # Internet
+                         socket.SOCK_DGRAM) # UDP
+        sock.bind((UDP_IP, UDP_PORT))
+        try:
+            speed = monocell("speed")
+            receive = monocell("receive")
 
-        speed.start()
-        receive.start()
+            speed.start()
+            receive.start()
+        except:
+            print "internal error!"
     except:
-        print "internal error!"
-except:
-    print "socket error"
+        print "socket error"
 
 
 
