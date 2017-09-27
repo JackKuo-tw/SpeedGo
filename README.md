@@ -1,8 +1,6 @@
 # SpeedGo
-NCNU PEARL LAB summer vacation project
-# SpeedGo (NCNU PEARL LAB summer vacation project)
-
-A simple network performance measurement tool,  which allows you to host a server and test performance with a client.
+- NCNU PEARL LAB summer vacation project for junior students
+- A simple network performance measurement tool,  which allows you to host a server and test performance with a client.
 
 
 # Environment
