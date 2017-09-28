@@ -68,10 +68,10 @@ def heart(name):
         print "Waiting for Upload test..."
         count = 0
         while 1:
-            recv_recv_size, addr = sock.recvfrom(2048)
-            #print len(recv_recv_size)
-            recv_size = recv_size + len(recv_recv_size) + 42
-            if len(recv_recv_size) == 4:
+            recv_data, addr = sock.recvfrom(2048)
+            #print len(recv_data)
+            recv_size = recv_size + len(recv_data) + 42
+            if len(recv_data) == 4:
                 recv_size = 4
                 break
         time.sleep(1)

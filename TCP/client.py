@@ -50,9 +50,9 @@ def heart(name):
             recv_size = 0
     if name=="receive":
         while 1:
-            recv_recv_size = s.recv(1460)
-            recv_size = recv_size + len(recv_recv_size) + 54
-            if len(recv_recv_size) == 4 and recv_recv_size=="done":    # finish signal from sender
+            recv_data = s.recv(1460)
+            recv_size = recv_size + len(recv_data) + 54
+            if len(recv_data) == 4 and recv_data=="done":    # finish signal from sender
                 recv_size = 4
                 break
         print "\n######### Download Speed: " + speed_convert(speed_sum/period) + " #########\n"
@@ -68,8 +68,8 @@ def heart(name):
                 s.send("done")             # send finish signal
                 break
         print "All recv_size sent to server"
-        recv_recv_size, addr = s.recvfrom(2048)    # receive average speed statistic from receiver
-        print "\n######### Upload Speed: " + recv_recv_size + " #########"  # print statistic
+        recv_data, addr = s.recvfrom(2048)    # receive average speed statistic from receiver
+        print "\n######### Upload Speed: " + recv_data + " #########"  # print statistic
         time.sleep(1)
         print(" ")
         print "Waiting for download test..."

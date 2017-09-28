@@ -45,9 +45,9 @@ def heart(name):
 
     if name=="receive":
             while 1:
-                recv_recv_size, addr = sock.recvfrom(2048)
-                recv_size = recv_size + len(recv_recv_size) + 42
-                if len(recv_recv_size) == 4:
+                recv_data, addr = sock.recvfrom(2048)
+                recv_size = recv_size + len(recv_data) + 42
+                if len(recv_data) == 4:
                     recv_size = 4
                     break
             print "Client's upload test finish"
@@ -66,8 +66,8 @@ def heart(name):
                     sock.sendto("done", (UDP_IP, UDP_PORT))
                 break
         print "Upload test finish"
-        recv_recv_size, addr = sock.recvfrom(2048)          # receive average speed statistic from receiver
-        print "###### upload speed: " + recv_recv_size + " ######"
+        recv_data, addr = sock.recvfrom(2048)          # receive average speed statistic from receiver
+        print "###### upload speed: " + recv_data + " ######"
         time.sleep(4)
         print "Waiting for download test..."
         try:

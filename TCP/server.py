@@ -62,9 +62,9 @@ def heart(name):
         conn, Client_info = s.accept()
         print 'Connected by', Client_info # client's IP address and port number
         while 1:
-            recv_recv_size = conn.recv(2048)
-            recv_size = recv_size + len(recv_recv_size) + 54    # payload len and header len
-            if len(recv_recv_size) == 4 and recv_recv_size=="done":    # finish signal from sender
+            recv_data = conn.recv(2048)
+            recv_size = recv_size + len(recv_data) + 54    # payload len and header len
+            if len(recv_data) == 4 and recv_data=="done":    # finish signal from sender
                 recv_size = 4
                 break
         time.sleep(1)
